@@ -117,7 +117,6 @@ struct RunCreateView: View {
                 } label: {
                     HStack {
                         Text(RunnerCount) // 현재 선택된 인원 수
-                            .foregroundColor(.teal)
                         Spacer()
                         Image(systemName: "chevron.up") // 화살표 아이콘
                     }
@@ -162,15 +161,14 @@ struct RunCreateView: View {
                 Menu {
                     ForEach(RunTime, id: \.self) { Time in
                         Button(action: {
-                            RunningTime = Time// 선택된 인원 수 저장
+                            RunningTime = Time // 선택된 시간
                         }) {
                             Text(Time)
                         }
                     }
                 } label: {
                     HStack {
-                        Text(RunningTime) // 현재 선택된 인원 수
-                            .foregroundColor(.teal)
+                        Text(RunningTime) // 현재 선택된 시간
                         Spacer()
                         Image(systemName: "chevron.up") // 화살표 아이콘
                     }
