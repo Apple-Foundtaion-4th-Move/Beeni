@@ -8,63 +8,169 @@
 
 import SwiftUI
 
+//class MeetingManager: ObservableObject {
+//    @Published var meetings: [Meeting] = []
+//
+//    func addMeeting(title: String, location: String, time: String, members: String) {
+//        let newMeeting = Meeting(title: title, location: location, time: time, members: members)
+//        meetings.append(newMeeting)
+//    }
+//}
+//
+//class MeetingManager: ObservableObject {
+//    @Published var meetings: [Meeting] = []
+//
+//    func addMeeting(title: String, location: String, time: String, members: String) {
+//        let newMeeting = Meeting(title: title, location: location, time: time, members: members)
+//        meetings.append(newMeeting)  // @Published로 선언된 프로퍼티 변경
+//    }
+//}
+
+
+struct Meeting: Identifiable {
+    let id = UUID()
+    let title: String
+    let location: String
+    let time: String
+    let members: String
+}
+
 
 // Run 페이지
-
-
 struct RunView: View {
     @State private var searchText: String = "" // 검색어를 저장하는 상태 변수
+    @FocusState private var isTextFieldFocused: Bool // 키보드 상태
+    //    @StateObject private var meetingManager = MeetingManager()  // 상태 객체 생성
+    
+    @State private var meetings = [
+        Meeting(title: "영일대 석양 러닝", location: "포항시", time: "11.2(토) 오후 1:30", members: "3/8"),
+        Meeting(title: "소통하며 러닝해요", location: "포항시", time: "11.3(일) 오후 1:30", members: "3/8"),
+        Meeting(title: "마라톤 준비 러닝", location: "포항시", time: "11.3(일) 오후 1:30", members: "3/8"),
+        Meeting(title: "트레일 러닝 갈 사람", location: "태백시", time: "11.3(일) 오후 1:30", members: "8/8"),
+        Meeting(title: "한강 러닝 갈 사람", location: "여의도", time: "11.3(일) 오후 1:30", members: "8/8"),
+        Meeting(title: "트레일 러닝 갈 사람", location: "태백시", time: "11.3(일) 오후 1:30", members: "8/8"),
+        Meeting(title: "트레일 러닝 갈 사람", location: "태백시", time: "11.3(일) 오후 1:30", members: "8/8"),
+        Meeting(title: "트레일 러닝 갈 사람", location: "태백시", time: "11.3(일) 오후 1:30", members: "8/8")
+    ]
+    
+    
+    var filteredMeetings: [Meeting] {
+        if searchText.isEmpty {
+            return meetings
+        } else {
+            return meetings.filter { $0.title.contains(searchText) }
+        }
+    }
     
     var body: some View {
         
         // 화면 전환 네비게이션으로 전체 감싸기
         NavigationView {
             // 스크롤 할 수 있는 뷰로 감싸기
-            ScrollView {
-                // VStack 페이지 전체
-                VStack(alignment: .leading) {
+            //            ScrollView {
+            // VStack 페이지 전체
+            VStack(alignment: .leading) {
+                
+                // 러닝 모임 찾기, 모임 개설 페이지 아이콘
+                HStack{
+                    Text("러닝 모임 찾기")
+                        .font(.title.bold())
+                        .padding(.top, 15)
+                        .padding(.leading, 25)
+                        .padding(.bottom, 5)
                     
-                    // 러닝 모임 찾기, 모임 개설 페이지 아이콘
-                    HStack{
-                        Text("러닝 모임 찾기")
-                            .font(.title.bold())
+                    Spacer() // 화면 공간 최대화
+                    
+                    // 모임 개설 페이지 넘어가는 + 버튼
+                    NavigationLink (destination: RunCreateView()){
+                        Image(systemName: "plus.app")
+                            .resizable()
+                            .frame(width: 33, height: 33)
                             .padding(.top, 15)
-                            .padding(.leading, 25)
-                            .padding(.bottom, 5)
-                        
-                        Spacer() // 화면 공간 최대화
-                        
-                        
-                        // 모임 개설 페이지 넘어가는 + 버튼
-                        NavigationLink (destination: RunCreateView()){
-                            Image(systemName: "plus.app")
-                                .resizable()
-                                .frame(width: 33, height: 33)
-                                .padding(.top, 15)
-                                .padding(.trailing, 15)
-                                .padding()
-                            
-                        }
-                        
-                        
-                    }// HStack 러닝 모임 찾기, 모임 개설 페이지 아이콘
-                    
-                    
-                    // 검색창
-                    VStack {
-                        TextField("검색어를 입력하세요.", text: $searchText)
-                            .padding(13) // 내부 여백
-                            .background(Color(.systemGray6)) // 검색창 배경색상
-                            .cornerRadius(10) // 모서리 둥글게
-                            .padding(.horizontal, 18) // 가로 여백
-                        
+                            .padding(.trailing, 15)
+                            .padding()
+                            .foregroundStyle(.teal)
                         
                     }
-                    Spacer()
                     
-                } // VSatck 전체
+                } // HStack 러닝 모임 찾기, 모임 개설 페이지 아이콘
                 
-            } // 스크롤뷰
+                // 검색창
+                HStack {
+                    TextField("검색어", text: $searchText, prompt: Text("검색어를 입력하세요."))
+                        .foregroundColor(.black)
+                        .submitLabel(.search)  //  "검색" 버튼
+                        .autocorrectionDisabled(true)
+                    Image(systemName: "magnifyingglass")
+                    
+                    
+                }
+                .onAppear(perform: UIApplication.shared.hideKeyboard)
+                .scrollDismissesKeyboard(.immediately)
+                .padding(.horizontal, 20)
+                .frame(width: 360, height: 50)
+                .background(.cyan.opacity(0.1))
+                .cornerRadius(12)
+                .padding(.leading, 15)
+                
+                Spacer()
+                
+                
+                //                    // 검색창
+                //                    VStack {
+                //                        TextField("검색어를 입력하세요.", text: $searchText)
+                //                            .padding(13) // 내부 여백
+                //                            .background(Color(.systemGray6)) // 검색창 배경색상
+                //                            .cornerRadius(10) // 모서리 둥글게
+                //                            .padding(.horizontal, 18) // 가로 여백
+                //
+                //
+                //                    }
+                //                    Spacer()
+                
+                // 모임 리스트
+                List {
+                    ForEach(filteredMeetings) { meeting in
+                        NavigationLink(destination: RunDetailView(meeting: meeting)) {
+                            VStack(alignment: .leading) {
+                                Text(meeting.title)
+                                    .font(.title2)
+                                HStack {
+                                    Image(systemName: "location.circle.fill")
+                                    Text(meeting.location)
+                                    Spacer()
+                                    Image(systemName: "calendar.circle.fill")
+                                    Text(meeting.time)
+                                    Spacer()
+                                    HStack {
+                                        Image(systemName: "person.3")
+                                        Text(meeting.members)
+                                    }
+                                }
+                                .font(.subheadline)
+                                .foregroundColor(.gray)
+                            }
+                            .padding(.vertical, 8)
+                        }
+                    }
+                }
+                .listStyle(PlainListStyle())
+                //                    VStack {
+                //                        List(meetingManager.meetings) { meeting in
+                //                            Text(meeting.title)
+                //
+                //                        }
+                //
+                //                        NavigationLink(destination: RunCreateView() {
+                //                            Text("모임 개설하기")
+                //                        }
+                //                    }
+                
+                
+                
+            } // VSatck 전체
+            
+            //            } // 스크롤뷰
             
         } // Navigation 전체
         
@@ -73,206 +179,77 @@ struct RunView: View {
 } // RunView 전체
 
 
-// 러닝 모임 개설 페이지
-struct RunCreateView: View {
-    @State private var RunCreateText: String = "" // 제목 저장하는 변수
-    @State private var SelectedDate = Date() // 날짜 저장하는 변수
-    @State private var SelectedLocation = "서울" // 위치 선택하는 변수
-    @State private var SelectedSubLocation = "" // 세부 위치 선택하는 변수
-    @State private var CourseLength: Double = 5.0 // 코스 길이를 저장하는 변수
-    @State private var SelectedMinutes: Int = 4 // 분 초기값
-    @State private var SelectedSeconds: Int = 0 // 초 초기값 (0 또는 30)
-    //    @State private var runningPace: Double = 4.0 // 기본 러닝 페이스 (4분)
-    @State private var RunnerCount = "2" // 인원수 선택하는 변수
-    @State private var RunningTime = "4 : 00" // 러닝 페이스 변수
-    @State private var TextAdd: String = "" // 상세 설명 추가 변수
-    let locations = ["서울", "부산", "대구"/*, "인천", "광주", "대전", "울산", "세종", "경기", "강원", "충북", "충남", "전북", "전남", "경북", "경남", "제주"*/]
-    let subLocations = [
-        "서울": ["강서구", "강남구", "종로구"],
-        "부산": ["해운대구", "서면", "광안리"],
-        "대구": ["중구", "남구", "수성구"],
-        // 필요에 따라 다른 도시와 세부 지역 추가하면 됨
-    ]
-    
-    let RunCount = ["2", "3", "4", "5", "6", "7", "8"]
-    var RunTime = ["4 : 00", "4 : 30", "5 : 00", "5 : 30", "6 : 00", "6 : 30", "7 : 00", "7 : 30", "8 : 00"]
-    
-    // 분과 초에 대한 선택값을 제공
-    let minutes = Array(4...8) // 4분에서 8분까지 선택 가능
-    let seconds = [0, 30] // 초는 0초 또는 30초 선택 가능
-    
-    
-    
-    var body: some View {
-        // 스크롤뷰로 전체 감싸기
-        ScrollView {
-            // 제목 입력
-            VStack {
-                TextField("제목을 입력하세요.", text: $RunCreateText)
-                    .padding(12)
-                    .background(Color(.systemGray6))
-                    .cornerRadius(10)
-                    .padding(.horizontal, 22)
-                    .padding(.top, 10)
-            }
-            
-            // 캘린더
-            VStack {
-                DatePicker("모임 날짜", selection: $SelectedDate, displayedComponents: .date)
-                    .datePickerStyle(CompactDatePickerStyle()) // 컴팩트 스타일
-                    .padding(.horizontal, 22)
-                    .padding(.top, 8)
-                    .padding(.leading, 5)
-                Spacer()
-            }
-            
-            // 장소 선택
-            VStack(alignment: .leading) {
-                Text("러닝 장소")
-                    .padding(.horizontal, 22)
-                    .padding(.leading, 5)
-                    .padding(.top, 18)
-                
-                // 러닝 장소 피커
-                HStack {
-                    Picker("도시를 선택하세요", selection: $SelectedLocation) {
-                        ForEach(locations, id: \.self) { location in
-                            Text(location)
-                        }
-                    }
-                    .pickerStyle(WheelPickerStyle())
-                    .padding(.horizontal, 22)
-                    
-                    
-                    Picker("세부 지역을 선택하세요", selection: $SelectedSubLocation) {
-                        ForEach(subLocations[SelectedLocation] ?? [], id: \.self) { subLocation in
-                            Text(subLocation)
-                        }
-                    }
-                    .pickerStyle(WheelPickerStyle())
-                    .padding(.horizontal, 22)
-                }
-                
-            }
-            
-            
-            // 참여 인원
-            HStack {
-                Text("참여 인원 선택")
-                    .padding(.horizontal, 22)
-                
-                // 참여 인원 목록 상자
-                Menu {
-                    ForEach(RunCount, id: \.self) { count in
-                        Button(action: {
-                            RunnerCount = count // 선택된 인원 수 저장
-                        }) {
-                            Text(count)
-                        }
-                    }
-                } label: {
-                    HStack {
-                        Text(RunnerCount) // 현재 선택된 인원 수
-                            .foregroundColor(.primary)
-                        Spacer()
-                        Image(systemName: "chevron.up") // 화살표 아이콘
-                    }
-                    .padding()
-                    .background(Color(.systemGray6))
-                    .cornerRadius(10)
-                    .padding(.horizontal, 22)
-                }
-                Spacer()
-                
-            } // HStack 참여인원
-            
-            
-            // 코스 길이 슬라이더
-            VStack {
-                Slider(value: $CourseLength, in: 0...20, step: 1.0)
-                    .padding()
-                
-                // 슬라이더 범위 표시
-                HStack {
-                    Text("0 km") // 최소값
-                    Spacer()
-                    Text("20 km") // 최대값
-                }
-                .padding(.horizontal)
-                
-                // 선택된 코스 길이 표시
-                Text("코스 길이: \(CourseLength, specifier: "%.1f") km")
-                    .font(.headline)
-                    .padding()
-            }
-            
-            
-            // 러닝 페이스 Stepper
-            HStack {
-                Text("러닝 페이스(1km 기준)")
-                    .padding(.horizontal, 22)
-                
-                // 참여 인원 목록 상자
-                Menu {
-                    ForEach(RunTime, id: \.self) { Time in
-                        Button(action: {
-                            RunningTime = Time// 선택된 인원 수 저장
-                        }) {
-                            Text(Time)
-                        }
-                    }
-                } label: {
-                    HStack {
-                        Text(RunningTime) // 현재 선택된 인원 수
-                            .foregroundColor(.primary)
-                        Spacer()
-                        Image(systemName: "chevron.up") // 화살표 아이콘
-                    }
-                    .padding()
-                    .background(Color(.systemGray6))
-                    .cornerRadius(10)
-                    .padding(.horizontal, 22)
-                }
-                Spacer()
-                
-            } // HStack 러닝 페이스
-            
-            // 상세 설명 추가
-            VStack {
-                TextField("상세 설명 추가", text: $TextAdd)
-                    .frame(height: 200)
-                    .padding(10)
-                    .background(Color(.systemGray6))
-                    .cornerRadius(10)
-                    .padding(.horizontal, 22)
-                    .padding(.top, 10)
-                
-            }
-            
-            // 개설하기 버튼
-            VStack {
-                Button(action: {
-                    print("버튼 누르면 실행")
-                }) {
-                    Text("개설하기")
-                        .foregroundColor(.white)
-                        .padding(.horizontal, 80)
-                        .padding(.vertical, 15)
-                        .background(Color(.systemTeal))
-                        .cornerRadius(10)
 
-                }
-                
-                
-            }
-            
-        } // ScrollView 전체
-        .navigationBarTitle("러닝 모임 개설") // 네비게이션바 제목
-        .navigationBarTitleDisplayMode(.inline) // 네비게이션바 글씨 스타일
-    } // var body 전체
-} // RunCreateView 전체
+
+// 텍스트 필드 편집이 끝났을 때 키보드 내리기 위한 View extension
+extension View {
+    func endTextEditing() {
+        UIApplication.shared.sendAction(
+            #selector(UIResponder.resignFirstResponder),
+            to: nil , from: nil, for: nil
+        )
+    }
+}
+
+
+struct MeetingListView_Previews: PreviewProvider {
+    static var previews: some View {
+        RunView()
+    }
+}
 
 
 #Preview {
     RunView()
 }
+
+
+//import SwiftUI
+//
+//struct RunView: View {
+//    @StateObject private var meetingManager = MeetingManager() // MeetingManager 인스턴스 생성
+//
+//    var body: some View {
+//        NavigationView {
+//            VStack {
+//                List(meetingManager.meetings) { meeting in
+//                    VStack(alignment: .leading) {
+//                        Text(meeting.title)
+//                            .font(.headline)
+//                        Text("날짜: \(meeting.date, formatter: dateFormatter)")
+//                        Text("장소: \(meeting.location) \(meeting.subLocation)")
+//                        Text("코스 길이: \(meeting.courseLength, specifier: "%.1f") km")
+//                        Text("인원: \(meeting.runnerCount)명")
+//                        Text("러닝 페이스: \(meeting.runningPace)")
+//                        Text(meeting.description)
+//                            .font(.footnote)
+//                            .foregroundColor(.gray)
+//                    }
+//                }
+//                .navigationTitle("러닝 모임 리스트")
+//
+//                // 모임 개설하기 버튼
+//                NavigationLink(destination: RunCreateView(meetingManager: meetingManager)) {
+//                    Text("모임 개설하기")
+//                        .foregroundColor(.white)
+//                        .padding()
+//                        .background(Color.blue)
+//                        .cornerRadius(10)
+//                }
+//                .padding()
+//            }
+//        }
+//    }
+//}
+//
+//// 날짜 포맷터
+//private let dateFormatter: DateFormatter = {
+//    let formatter = DateFormatter()
+//    formatter.dateStyle = .long
+//    return formatter
+//}()
+//
+//
+//#Preview {
+//    RunView()
+//}

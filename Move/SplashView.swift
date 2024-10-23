@@ -15,6 +15,7 @@ struct SplashView: View {
     var body: some View {
         ZStack{
             Color.teal.opacity(0.5) // 스플래시 전체 색상
+                .edgesIgnoringSafeArea(.all)
             
             VStack{
                 Image(systemName: "figure.run") // 로고 이미지 run

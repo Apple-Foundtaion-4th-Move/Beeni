@@ -3,6 +3,6 @@
 <plist version="1.0">
 <dict>
 	<key>NSLocationDefaultAccuracyReduced</key>
-	<true/>
+	<array/>
 </dict>
 </plist>

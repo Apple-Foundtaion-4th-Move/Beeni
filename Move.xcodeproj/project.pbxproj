@@ -417,6 +417,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Move/Info.plist;
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "유저의 위치 정보가 Map에 보여지기 위해 사용됩니다. ";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "유저의 위치 정보가 Map에 보여지기 위해 사용됩니다.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "유저의 위치 정보가 Map에 보여지기 위해 사용됩니다. ";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -448,6 +449,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Move/Info.plist;
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "유저의 위치 정보가 Map에 보여지기 위해 사용됩니다. ";
+				INFOPLIST_KEY_NSLocationAlwaysUsageDescription = "유저의 위치 정보가 Map에 보여지기 위해 사용됩니다.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "유저의 위치 정보가 Map에 보여지기 위해 사용됩니다. ";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
