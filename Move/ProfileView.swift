@@ -145,91 +145,92 @@ struct ProfileView: View {
             
             // map 이미지
             VStack{
+                //                Map(position: $cameraPosition)
+                //                    .mapControls { // 줌 버튼 추가하여 컨트롤 설정 가능
+                //                        MapUserLocationButton()
+                //                        MapCompass()
                 Map(position: $cameraPosition)
-                    .mapControls { // 줌 버튼 추가하여 컨트롤 설정 가능
-                        MapUserLocationButton()
-                        MapCompass()
-                    }
-                
-                //                if #available(iOS 17.0, *) {
-                //                    //
-                //                    Map(coordinateRegion: $locationManager.region)  // 사용자의 현재 위치로 맵 표시
-                //                        .frame(width: 360, height: 250)
-                //                        .cornerRadius(15)
-                //
-                //                } else { // ios 버전 안 맞으면 map 이미지 띄우기
-                //                    Image("map")
-                //                        .resizable()
-                //                        .frame(width: 360, height: 250)
-                //                        .cornerRadius(15)
-                //                    //                        .padding(.horizontal, 18)
-                //                }
-            }
-            //        .frame(maxWidth: .infinity) // 가운데 정렬
+//            }
             
-            // 러닝 정보
-            VStack{
-                HStack{
-                    VStack{
-                        Text("5.01")
-                            .foregroundStyle(.black)
-                            .font(.system(size: 18, weight: .bold))
-                        Text("KM")
-                            .frame(maxWidth: .infinity)
-                            .foregroundColor(.black.opacity(0.6))
-                            .font(.system(size: 13, weight: .bold))
-                        
-                    }
-                    .padding(.leading, 10)
-                    .frame(maxWidth: .infinity)
+            //                if #available(iOS 17.0, *) {
+            //                    //
+            //                    Map(coordinateRegion: $locationManager.region)  // 사용자의 현재 위치로 맵 표시
+            //                        .frame(width: 360, height: 250)
+            //                        .cornerRadius(15)
+            //
+            //                } else { // ios 버전 안 맞으면 map 이미지 띄우기
+            //                    Image("map")
+            //                        .resizable()
+            //                        .frame(width: 360, height: 250)
+            //                        .cornerRadius(15)
+            //                    //                        .padding(.horizontal, 18)
+            //                }
+        }
+        //        .frame(maxWidth: .infinity) // 가운데 정렬
+        
+        // 러닝 정보
+        VStack{
+            HStack{
+                VStack{
+                    Text("5.01")
+                        .foregroundStyle(.black)
+                        .font(.system(size: 18, weight: .bold))
+                    Text("KM")
+                        .frame(maxWidth: .infinity)
+                        .foregroundColor(.black.opacity(0.6))
+                        .font(.system(size: 13, weight: .bold))
                     
-                    VStack{
-                        Text("5'02''")
-                            .foregroundStyle(.black)
-                            .font(.system(size: 18, weight: .bold))
-                        Text("평균 페이스")
-                            .frame(maxWidth: .infinity)
-                            .foregroundColor(.black.opacity(0.6))
-                            .font(.system(size: 13, weight: .bold))
-                        
-                    }
-                    .frame(maxWidth: .infinity)
+                }
+                .padding(.leading, 10)
+                .frame(maxWidth: .infinity)
+                
+                VStack{
+                    Text("5'02''")
+                        .foregroundStyle(.black)
+                        .font(.system(size: 18, weight: .bold))
+                    Text("평균 페이스")
+                        .frame(maxWidth: .infinity)
+                        .foregroundColor(.black.opacity(0.6))
+                        .font(.system(size: 13, weight: .bold))
                     
-                    VStack{
-                        Text("25:12")
-                            .foregroundStyle(.black)
-                            .font(.system(size: 18, weight: .bold))
-                        Text("시간")
-                            .frame(maxWidth: .infinity)
-                            .foregroundColor(.black.opacity(0.6))
-                            .font(.system(size: 13, weight: .bold))
-                        
-                    }
-                    .frame(maxWidth: .infinity)
-                    
-                    VStack{
-                        Text("15m")
-                            .foregroundColor(.black)
-                            .font(.system(size: 18, weight: .bold))
-                        Text("최고 고도")
-                            .foregroundColor(.black.opacity(0.6))
-                            .font(.system(size: 13, weight: .bold))
-                    }
-                    .padding(.leading, -10)
-                    .frame(maxWidth: .infinity)
                 }
                 .frame(maxWidth: .infinity)
-                .frame(height: 70)
                 
+                VStack{
+                    Text("25:12")
+                        .foregroundStyle(.black)
+                        .font(.system(size: 18, weight: .bold))
+                    Text("시간")
+                        .frame(maxWidth: .infinity)
+                        .foregroundColor(.black.opacity(0.6))
+                        .font(.system(size: 13, weight: .bold))
+                    
+                }
+                .frame(maxWidth: .infinity)
                 
-            } // VStack 하단 러닝 정보 블록
-            .padding(.top, -10)
-            Divider()
-            Spacer() // VStack과 HStack 사이 공간 최대화
+                VStack{
+                    Text("15m")
+                        .foregroundColor(.black)
+                        .font(.system(size: 18, weight: .bold))
+                    Text("최고 고도")
+                        .foregroundColor(.black.opacity(0.6))
+                        .font(.system(size: 13, weight: .bold))
+                }
+                .padding(.leading, -10)
+                .frame(maxWidth: .infinity)
+            }
+            .frame(maxWidth: .infinity)
+            .frame(height: 70)
             
-        } // 가장 큰 VStack 블록
+            
+        } // VStack 하단 러닝 정보 블록
+        .padding(.top, -10)
+        Divider()
+        Spacer() // VStack과 HStack 사이 공간 최대화
         
-    } // var body 블록
+    } // 가장 큰 VStack 블록
+    
+} // var body 블록
 } // struct 블록
 #Preview {
     ProfileView()
